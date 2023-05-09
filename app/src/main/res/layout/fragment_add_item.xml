@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Lost Item"
+        android:textSize="24sp"
+        android:textColor="#800080"
+        android:layout_marginLeft="80dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/id_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border"
+        android:hint="ID "
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <RadioGroup
+        android:id="@+id/post_type_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/lost_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lost" />
+
+        <RadioButton
+            android:id="@+id/found_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Found" />
+
+    </RadioGroup>
+
+
+
+    <EditText
+        android:id="@+id/name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border"
+        android:hint="Name"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/phone_number_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border"
+        android:hint="Phone number"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/title_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border"
+        android:hint="Item title"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/description_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border1"
+        android:hint="Description"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/date_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border"
+        android:hint="dd/mm/yyyy"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/location_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_border"
+        android:hint="Location"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/insert_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Insert"
+        android:onClick="insertButton"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp" />
+
+
+
+    <Button
+        android:id="@+id/update_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Update"
+        android:onClick="updateButton"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Delete"
+        android:onClick="deleteButton"
+        android:textSize="20dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/fetch_button"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Fetch"
+        android:onClick="fetchButton"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible"/>
+
+
+
+    <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+
+</FrameLayout>
+</LinearLayout>
+</LinearLayout>
+
+</ScrollView>

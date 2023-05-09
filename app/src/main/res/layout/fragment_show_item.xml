@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- fragment_show_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lostfound_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lost and Found Items"
+        android:textSize="24dp"
+        android:textColor="#800080"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+    <ListView
+        android:id="@+id/list_view_items"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
