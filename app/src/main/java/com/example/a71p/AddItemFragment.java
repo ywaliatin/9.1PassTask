@@ -1,25 +1,30 @@
 package com.example.a71p;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.example.a71p.data.DatabaseHelper;
 import com.example.a71p.model.user;
 import com.example.a71p.util.Util;
+import com.example.a71p.data.DatabaseHelper;
+import com.example.a71p.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddItemFragment extends Fragment {
@@ -38,6 +43,8 @@ public class AddItemFragment extends Fragment {
     private Button fetchButton;
     private Button updateButton;
     private DatabaseHelper databaseHelper;
+    private AutoCompleteTextView locationEditText;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +69,33 @@ public class AddItemFragment extends Fragment {
 
         RadioButtonlost = view.findViewById(R.id.lost_radio_button);
         RadioButtonfound = view.findViewById(R.id.found_radio_button);
+
+        // Initialize the AutoCompleteTextView
+        locationEditText = view.findViewById(R.id.location_edit_text);
+
+// Create an ArrayAdapter with your list of locations
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, databaseHelper.getLocations());
+
+// Set the adapter to the AutoCompleteTextView
+        locationEditText.setAdapter(adapter);
+
+
+        // Fetch all locations from the database
+        List<String> locations = databaseHelper.getLocations();
+
+// Create a new instance of MapsFragment
+        MapsFragment mapsFragment = new MapsFragment();
+
+// Create a bundle to hold the locations
+        Bundle args = new Bundle();
+        args.putStringArrayList("locations", new ArrayList<>(locations));
+
+// Set the arguments on the fragment
+        mapsFragment.setArguments(args);
+
+// Now you can add or replace this MapsFragment as needed
+
 
         post_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -105,6 +139,9 @@ public class AddItemFragment extends Fragment {
         });
         return view;
     }
+
+
+
     private void insertUser() {
         String post_type = RadioButtonlost.getText().toString().trim();
         String name = EditTextName.getText().toString().trim();
@@ -114,7 +151,7 @@ public class AddItemFragment extends Fragment {
         String date = EditTextDate.getText().toString().trim();
         String location = EditTextLocation.getText().toString().trim();
 
-        if (name.isEmpty() || phoneNumber.isEmpty() || description.isEmpty()) {
+        if (name.isEmpty() || phoneNumber.isEmpty() || description.isEmpty() || location.isEmpty()) {
             Toast.makeText(getContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -122,31 +159,39 @@ public class AddItemFragment extends Fragment {
         user newUser = new user(post_type, name, phoneNumber, item_title, description, date, location);
         long newRowId = databaseHelper.insertUser(newUser);
 
+        Log.d("InsertUser", "Values being inserted: post_type = " + post_type + ", name = " + name + ", phoneNumber = " + phoneNumber
+                + ", item_title = " + item_title + ", description = " + description + ", date = " + date + ", location = " + location);
+        Log.d("InsertUser", "Insert result: newRowId = " + newRowId);
+
         if (newRowId != -1) {
             Toast.makeText(getContext(), "User inserted successfully", Toast.LENGTH_SHORT).show();
+
+            // Create local variables for latitude and longitude
+            //double latitude = -37.840935; // Example latitude
+            //double longitude = 144.946457; // Example longitude
+
+
+
+
+            // Get the existing instance of MapsFragment
+            MapsFragment mapsFragment = (MapsFragment) getParentFragmentManager().findFragmentById(R.id.maps_fragment_container);
+
+            // Pass all the locations to the MapsFragment
+            if (mapsFragment != null) {
+                List<String> locations = databaseHelper.getLocations();
+                mapsFragment.setLocations(locations);
+            }
+
             clearInputFields();
-        } else {
-            Toast.makeText(getContext(), "Failed to insert user", Toast.LENGTH_SHORT).show();
+
+            // Check if the location is being passed correctly
+            Log.d("AddItemFragment", "Location: " + location);
         }
     }
 
 
-    //private void fetchUser() {
-        // Pass an empty search query for fetching all users
-      //  String searchQuery = "";
-        //Cursor cursor = databaseHelper.fetchUserList(searchQuery);
-        //if (cursor.getCount() == 0) {
-          //  Log.d("TAG", "No data found");
-            //return;
-        //}
-        //while (cursor.moveToNext()) {
-          //  int id = cursor.getInt(0);
-            //String name = cursor.getString(1);
-            //String phoneNumber = cursor.getString(2);
-            //String description = cursor.getString(3);
-            //Log.d("TAG", "id: " + id + " name: " + name + " phoneNumber: " + phoneNumber + " description: " + description);
-        //}
-    //}
+
+
 
     private void fetchUser() {
         String name = EditTextName.getText().toString().trim();

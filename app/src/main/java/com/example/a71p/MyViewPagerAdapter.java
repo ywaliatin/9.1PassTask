@@ -19,6 +19,8 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
                 return new AddItemFragment();
             case 1:
                 return new ShowItemFragment();
+            case 2:
+                return new MapsFragment();
         }
         // This line will never be reached, as all possible positions have been handled above
         throw new IllegalArgumentException("Invalid position: " + position);
@@ -27,7 +29,7 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
 

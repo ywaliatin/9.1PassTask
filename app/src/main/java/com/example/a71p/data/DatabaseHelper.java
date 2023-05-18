@@ -10,15 +10,44 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.a71p.AddItemFragment;
-import com.example.a71p.util.Util;
 import com.example.a71p.model.user;
+import com.example.a71p.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context, Util.DATABASE_NAME, null, Util.DATABASE_VERSION);
     }
+    // Add the getLocations() method to retrieve the list of locations
+    public List<String> getLocations() {
+        List<String> locations = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT DISTINCT " + Util.LOCATION + " FROM " + Util.TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String location = cursor.getString(0);
+                locations.add(location);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        // Log the retrieved locations
+        for (String location : locations) {
+            Log.d("DatabaseHelper", "Location: " + location);
+        }
+
+        return locations;
+    }
+
+
+
 
 
     @Override
@@ -63,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
-    public Cursor getallusers(){
+    public Cursor getallusers() {
         Log.d("Databasehelper", "Reading all items");
         //Get reference to database
         SQLiteDatabase db = this.getWritableDatabase();
@@ -154,32 +183,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    //public Cursor fetchUserList(){
-        //  String[] columns = new String[]{
-        //        Util.USER_ID,
-        //      Util.POST_TYPE,
-        //    Util.NAME,
-        //  Util.PHONENUMBER,
-        //Util.ITEM_TITLE,
-        //Util.DESCRIPTION,
-        //Util.DATE,
-        //Util.LOCATION};
 
-        //SQLiteDatabase db = this.getReadableDatabase();
 
-        //Cursor cursor = db.query(
-        //      Util.TABLE_NAME,
-        //    columns,
-        //  null,
-        //null,
-        //null,
-        //null,
-        //null);
-
-        //if (cursor != null) {
-        //    cursor.moveToFirst();
-        //}
-        //return cursor;
-        //}
-
-    }
+}

@@ -35,6 +35,13 @@
             android:text="All items"
             android:textAllCaps="true"/>
 
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/locations_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Locations"
+            android:textAllCaps="true"/>
+
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -43,5 +50,12 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tab_layout"
         android:outlineAmbientShadowColor="@color/black"/>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 
 </RelativeLayout>
