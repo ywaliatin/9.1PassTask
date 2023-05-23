@@ -96,6 +96,7 @@
         android:padding="10dp"
         android:layout_marginTop="10dp" />
 
+
     <AutoCompleteTextView
         android:id="@+id/location_edit_text"
         android:layout_width="match_parent"
@@ -104,9 +105,22 @@
         android:hint="Location"
         android:padding="10dp"
         android:layout_marginTop="10dp"
-        android:completionThreshold="1" />
+        android:completionThreshold="1"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
 
-<LinearLayout
+        />
+
+
+    <fragment
+        android:id="@+id/autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"/>
+
+
+
+
+    <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 

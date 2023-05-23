@@ -43,7 +43,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.autocomplete_fragment1);
         mapFragment.getMapAsync(this);
 
 

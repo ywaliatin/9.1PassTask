@@ -1,5 +1,7 @@
 package com.example.a71p;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,15 +17,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.a71p.data.DatabaseHelper;
 import com.example.a71p.model.user;
 import com.example.a71p.util.Util;
 import com.example.a71p.data.DatabaseHelper;
 import com.example.a71p.util.Util;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -58,7 +68,7 @@ public class AddItemFragment extends Fragment {
         EditTextTitle = view.findViewById(R.id.title_edit_text);
         EditTextDescription = view.findViewById(R.id.description_edit_text);
         EditTextDate = view.findViewById(R.id.date_edit_text);
-        EditTextLocation = view.findViewById(R.id.location_edit_text);
+        locationEditText = view.findViewById(R.id.location_edit_text);
         insertButton = view.findViewById(R.id.insert_button);
         deleteButton = view.findViewById(R.id.delete_button);
         fetchButton = view.findViewById(R.id.fetch_button);
@@ -70,31 +80,44 @@ public class AddItemFragment extends Fragment {
         RadioButtonlost = view.findViewById(R.id.lost_radio_button);
         RadioButtonfound = view.findViewById(R.id.found_radio_button);
 
-        // Initialize the AutoCompleteTextView
-        locationEditText = view.findViewById(R.id.location_edit_text);
 
-// Create an ArrayAdapter with your list of locations
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, databaseHelper.getLocations());
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), "AIzaSyAV4rEXs01bRZlZPvQMmJaCwJH-LJbQ0dA");
+        }
 
-// Set the adapter to the AutoCompleteTextView
-        locationEditText.setAdapter(adapter);
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            // In the onPlaceSelected callback
+
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // Store the selected place's name in a member variable
+                String selectedPlaceName = place.getName();
+
+                // EditText to display the selected place's name
+                locationEditText.setText(selectedPlaceName);
+
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            }
 
 
-        // Fetch all locations from the database
-        List<String> locations = databaseHelper.getLocations();
 
-// Create a new instance of MapsFragment
-        MapsFragment mapsFragment = new MapsFragment();
+            @Override
+            public void onError(@NonNull Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
 
-// Create a bundle to hold the locations
-        Bundle args = new Bundle();
-        args.putStringArrayList("locations", new ArrayList<>(locations));
 
-// Set the arguments on the fragment
-        mapsFragment.setArguments(args);
 
-// Now you can add or replace this MapsFragment as needed
 
 
         post_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -140,6 +163,10 @@ public class AddItemFragment extends Fragment {
         return view;
     }
 
+    private FragmentManager getSupportFragmentManager() {
+        return getParentFragmentManager();
+    }
+
 
 
     private void insertUser() {
@@ -149,7 +176,7 @@ public class AddItemFragment extends Fragment {
         String item_title = EditTextTitle.getText().toString().trim();
         String description = EditTextDescription.getText().toString().trim();
         String date = EditTextDate.getText().toString().trim();
-        String location = EditTextLocation.getText().toString().trim();
+        String location = locationEditText.getText().toString().trim();
 
         if (name.isEmpty() || phoneNumber.isEmpty() || description.isEmpty() || location.isEmpty()) {
             Toast.makeText(getContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show();
@@ -217,7 +244,7 @@ public class AddItemFragment extends Fragment {
         String title = EditTextTitle.getText().toString();
         String description = EditTextDescription.getText().toString();
         String date = EditTextDate.getText().toString();
-        String location = EditTextLocation.getText().toString();
+        String location = locationEditText.getText().toString();
 
         // Validate that the user has entered an ID
         if (idString.isEmpty()) {
@@ -272,6 +299,6 @@ public class AddItemFragment extends Fragment {
         EditTextTitle.setText("");
         EditTextDescription.setText("");
         EditTextDate.setText("");
-        EditTextLocation.setText("");
+        locationEditText.setText("");
     }
 }
