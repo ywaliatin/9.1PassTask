@@ -82,7 +82,7 @@ public class AddItemFragment extends Fragment {
 
 
         if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), " ");
+            Places.initialize(requireContext(), "YOUR API");
         }
 
         // Initialize the AutocompleteSupportFragment.

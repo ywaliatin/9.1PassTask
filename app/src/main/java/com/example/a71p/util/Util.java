@@ -16,4 +16,8 @@ public class Util {
     public static final String LOCATION = "location";
 
 
+    public static final String LOCATION_ID = "location_id";
+    public static final String LATLONG = "latlong";
+
+
 }
